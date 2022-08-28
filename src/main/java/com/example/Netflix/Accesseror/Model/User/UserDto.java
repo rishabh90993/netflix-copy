@@ -2,9 +2,11 @@ package com.example.Netflix.Accesseror.Model.User;
 
 import lombok.Builder;
 import lombok.Getter;
+import lombok.Setter;
 
 @Builder
 @Getter
+@Setter
 public class UserDto {
     private String userID;
     private String name;

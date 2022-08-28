@@ -11,24 +11,25 @@ import javax.sql.DataSource;
 @Configuration
 public class DbConfig {
 
-    @Value("jdbcUrl")
+    @Value("${jdbcUrl}")
     private String jdbcUrl;
 
-    @Value("dbUserName")
-    private String dbUserName;
+    @Value("${dbUserName}")
+    private String dbUserName ;
 
-    @Value("dbPassword")
-    private String dbPassword;
+    @Value("${dbPassword}")
+    private String dbPassword ;
 
 
     @Bean(destroyMethod = "close")
     @Primary
-    DataSource getDataSource(){
+    DataSource getDataSource() throws ClassNotFoundException {
+
         BasicDataSource dataSource = new BasicDataSource();
         dataSource.setUrl(jdbcUrl);
         dataSource.setUsername(dbUserName);
         dataSource.setPassword(dbPassword);
-        dataSource.setDriverClassName("com.mysql.jdbc.Driver");
+        dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
 
         return dataSource;
     }

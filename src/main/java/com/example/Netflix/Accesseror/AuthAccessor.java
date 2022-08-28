@@ -28,7 +28,7 @@ public class AuthAccessor {
             ps.setString(1,uuId);
             ps.setString(2,token);
             ps.setString(3,userID);
-             ps.executeUpdate();
+            ps.executeUpdate();
 
         } catch (SQLException e) {
             e.printStackTrace();
