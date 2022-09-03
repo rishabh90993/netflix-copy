@@ -34,6 +34,7 @@ dependencies {
 	implementation 'jakarta.activation:jakarta.activation-api:1.2.1'
 	implementation 'org.glassfish.jaxb:jaxb-runtime:4.0.0'
 	implementation 'javax.xml.bind:jaxb-api:2.4.0-b180830.0359'
+	implementation 'org.springframework.boot:spring-boot-starter-security:2.7.3'
 
 }
 

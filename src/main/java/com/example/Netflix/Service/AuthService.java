@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.nio.charset.StandardCharsets;
 import java.util.Date;
 
 @Service
@@ -41,7 +42,7 @@ public class AuthService {
                       setSubject(email).
                       setAudience(user.getRole().name())
                       .setExpiration(new Date(System.currentTimeMillis() + SecurityConstants.EXPIRATION_TIME))
-                      .signWith(SignatureAlgorithm.HS512, SecurityConstants.secretKey)
+                      .signWith(SignatureAlgorithm.HS512, SecurityConstants.secretKey.getBytes())
                       .compact();
               authAccessor.storeToken(user.getUserID(), token);
               return token;
