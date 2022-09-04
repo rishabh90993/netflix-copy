@@ -51,4 +51,14 @@ public class AuthService {
 
     }
 
+    /***
+     *
+     * @param token
+     * Loggs User out if token is present else sends Bad Request as Response
+     */
+    public void logout(String token){
+        authAccessor.deleteByToken(token);
+    }
+
+
 }

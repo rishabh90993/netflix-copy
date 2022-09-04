@@ -3,7 +3,9 @@ package com.example.Netflix.Accesseror;
 import com.example.Netflix.Accesseror.Model.User.UserDto;
 import com.example.Netflix.Accesseror.Model.User.UserRole;
 import com.example.Netflix.Accesseror.Model.User.UserState;
+import com.example.Netflix.Accesseror.Model.User.VerificationStatus;
 import com.example.Netflix.Exceptions.DependencyFaliureException;
+import org.apache.catalina.Role;
 import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -51,7 +53,7 @@ public class UserAccessor {
     }
 
     public UserDto getUserByPhoneNo(String phoneNo){
-        String query = "Select userId, name, email, password,phoneNo,state, role from user where phoneNO = ?";
+        String query = "Select userId, name, email, password,phoneNo,state, role, emailVerificationStatus, phoneVerificationStatus from user where phoneNO = ?";
 
         try(Connection connection = dataSource.getConnection()){
             PreparedStatement ps = connection.prepareStatement(query);
@@ -67,6 +69,8 @@ public class UserAccessor {
                         .phoneNo(resultSet.getString(5))
                         .state(UserState.valueOf(resultSet.getString(6)))
                         .role(UserRole.valueOf(resultSet.getString(7)))
+                        .emailVerificationStatus(VerificationStatus.valueOf(resultSet.getString(8)))
+                        .phoneVerificationStatus(VerificationStatus.valueOf(resultSet.getString(9)))
                         .build();
                 return userDto;
             }
@@ -100,6 +104,51 @@ public class UserAccessor {
             throw new DependencyFaliureException(e);
         }
 
+    }
+
+    public void updateUserRole(String userId, UserRole userRole){
+        String query = "UPDATE user set role = ? where userId = ?";
+
+        try(Connection connection = dataSource.getConnection()){
+            PreparedStatement ps = connection.prepareStatement(query);
+            ps.setString(1,userRole.name());
+            ps.setString(2,userId);
+
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new DependencyFaliureException(e);
+        }
+    }
+
+    public void updateEmailVerificationStatus(String userId, VerificationStatus verificationStatus){
+        String query = "UPDATE user set emailVerificationStatus = ? where userId = ?";
+
+        try(Connection connection = dataSource.getConnection()){
+            PreparedStatement ps = connection.prepareStatement(query);
+            ps.setString(1,verificationStatus.name());
+            ps.setString(2,userId);
+
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new DependencyFaliureException(e);
+        }
+    }
+
+    public void updatePhoneVerificationStatus(String userId, VerificationStatus verificationStatus){
+        String query = "UPDATE user set phoneVerificationStatus = ? where userId = ?";
+
+        try(Connection connection = dataSource.getConnection()){
+            PreparedStatement ps = connection.prepareStatement(query);
+            ps.setString(1,verificationStatus.name());
+            ps.setString(2,userId);
+
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new DependencyFaliureException(e);
+        }
     }
 
 }
